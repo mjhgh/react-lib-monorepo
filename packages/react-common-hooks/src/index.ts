@@ -1,0 +1,1 @@
+export { useEffectSignal } from './useEffectSignal'

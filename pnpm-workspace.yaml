@@ -1,0 +1,9 @@
+packages:
+  - packages/*
+
+onlyBuiltDependencies:
+  - chokidar
+  - electron
+  - esbuild
+  - fsevents
+  - tree-sitter
