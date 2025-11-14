@@ -1,11 +1,11 @@
+import type { RefObject } from "react";
 import { useLayoutEffect, useRef } from "react";
-import type { MutableRefObject } from "react";
 
 /**
  * useNamedRefs
  *
  * Returns an object with:
- * - get<T>(kind, name): MutableRefObject<T | null>
+ * - get<T>(kind, name): RefObject<T | null>
  * - [Symbol.dispose](): void — marks the end of the render scope
  *
  * Design:
@@ -27,7 +27,7 @@ export function useNamedRefs() {
 
   // kind -> name -> ref
   const byKindRef = useRef(
-    new Map<string, Map<string, MutableRefObject<any>>>()
+    new Map<string, Map<string, RefObject<any>>>()
   );
 
   // Previous committed set of keys
@@ -43,7 +43,7 @@ export function useNamedRefs() {
   // Touched keys for this render
   const touchedThisRender = new Set<Key>();
 
-  const get = <T>(kind: string, name: string): MutableRefObject<T | null> => {
+  const get = <T>(kind: string, name: string): RefObject<T | null> => {
     const key = makeKey(kind, name);
     touchedThisRender.add(key);
 
@@ -53,10 +53,10 @@ export function useNamedRefs() {
       byKindRef.current.set(kind, inner);
     }
 
-    let ref = inner.get(name) as MutableRefObject<T | null> | undefined;
+    let ref = inner.get(name) as RefObject<T | null> | undefined;
     if (!ref) {
       ref = { current: null };
-      inner.set(name, ref as MutableRefObject<any>);
+      inner.set(name, ref as RefObject<any>);
     }
 
     return ref;
