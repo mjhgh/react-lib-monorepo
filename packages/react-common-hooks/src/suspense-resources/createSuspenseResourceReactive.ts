@@ -7,6 +7,10 @@ import { useEffectSignal } from "../general/useEffectSignal";
 
 interface SuspenseCacheReactiveHandler<T> {
   use(key: string): T;
+  /* 
+    This is just a convenience method to delete the cache entry on unmount.
+    Please be aware of multiple resources using the same cache, it simply will cause re-fetch.    
+   */
   useAndCleanupOnUnmount(key: string): T;
   cache: ReactiveMap<string, SuspenseResult<T>>;
 
